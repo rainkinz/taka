@@ -1,9 +1,11 @@
 = Taka
 
-"I am but mad north-northwest: when the wind is southerly I know a hawk from
-a handsaw."
+* http://github.com/tenderlove/taka
 
 == DESCRIPTION:
+
+"I am but mad north-northwest: when the wind is southerly I know a hawk from
+a handsaw."
 
 Taka is a DOM (core and html) implementation for ruby.  This software is
 EXTREMELY experimental.  You may hurt yourself while using it.
