@@ -16,6 +16,7 @@ require 'taka/dom/character_data'
 require 'taka/dom/node_list'
 require 'taka/dom/html'
 
+
 module Taka
   module DOM
     class << self
