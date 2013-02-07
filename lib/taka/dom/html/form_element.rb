@@ -30,12 +30,12 @@ module Taka
           # Does nothing for now
           # refer to https://github.com/cowboyd/therubyracer/wiki/Accessing-Ruby-Objects-From-JavaScript
           proc do 
-            #puts "Submit pressed: #{self['method']}: #{self['action']} "
-            puts "Submit pressed"
+            puts "Submit pressed: #{self['method']}: #{self['action']} #{form_params}"
           end
         end
 
         def form_params
+          form_fields.map {|k,v| "#{k}=#{v.value}" }.join("&")
         end
 
         # TODO: Do I want to keep this? Purely for ruby side calls
@@ -54,18 +54,30 @@ module Taka
           if child = child_by_name(name)
             child
           else
-#            puts "No child named #{name} found calling super"
             super
           end
         end
 
         def child_by_name(name)
+          form_fields[name]
+          # if self.children
+          #   h = self.children.inject({}) {|h,v| h[v['name']] = v; h }
+          #   h[name.to_s]
+          # else
+          #   nil
+          # end
+        end
+
+        def form_fields
           if self.children
-            h = self.children.inject({}) {|h,v| h[v['name']] = v; h }
-            h[name.to_s]
+            h = self.children.inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h } 
           else
-            nil
+            {} 
           end
+        end
+
+        def form_field?(type)
+          ['hidden', 'input', 'textarea','select'].include?(type)
         end
         
         # # def [](name)
