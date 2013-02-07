@@ -1,34 +1,24 @@
+require 'taka/bom/location'
+
 module Taka
   module DOM
 
-    
     module Document
-
 
       # BJG Added
 
-      require 'uri'
-      class Location
-        def initialize(uri)
-          @uri = URI.parse(uri)
-        end
-
-        def protocol
-          @uri.scheme
-        end
-
-        def to_s
-          @uri.to_s
-        end
-        
-      end
-      
+      # document.location is a (deprecated but still present) read-only string property, replaced by document.url
       def location
-        if self.url
-          Location.new(self.url)
-        end
+        @location 
+#        ||= Taka::BOM::Location.new(self.url)
       end
 
+      def location=(l)
+        @location = Taka::BOM::Location.new(l)
+      end
+
+
+      # https://groups.google.com/forum/?fromgroups=#!topic/therubyracer/xgq_Uy1LcOc
       def [](name)
         #lambda do |*args|
           send(:method_missing, name, nil)

@@ -1,3 +1,5 @@
+require 'taka/bom/browser'
+
 module Taka
   module DOM
     module HTML
@@ -26,16 +28,27 @@ module Taka
           end
         end
 
+        # def submit
+        #   # Does nothing for now
+        #   # refer to https://github.com/cowboyd/therubyracer/wiki/Accessing-Ruby-Objects-From-JavaScript
+        #   proc do 
+        #     puts "Submit pressed: #{self['method']}: #{self['action']} #{form_params}"
+        #     #{ :method => self['method'], :aciton => self['action'], :params => form_fields }
+        #   end
+        # end
+
         def submit
           # Does nothing for now
           # refer to https://github.com/cowboyd/therubyracer/wiki/Accessing-Ruby-Objects-From-JavaScript
           proc do 
             puts "Submit pressed: #{self['method']}: #{self['action']} #{form_params}"
+            Taka::BOM::Browser.push({ :method => self['method'], :aciton => self['action'], :params => form_params })
           end
         end
 
+        
         def form_params
-          form_fields.map {|k,v| "#{k}=#{v.value}" }.join("&")
+          form_fields.map {|k,v| "#{k}=#{v.value}" }
         end
 
         # TODO: Do I want to keep this? Purely for ruby side calls
