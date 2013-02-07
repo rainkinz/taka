@@ -1,6 +1,60 @@
 module Taka
   module DOM
+
+    
     module Document
+
+
+      # BJG Added
+
+      require 'uri'
+      class Location
+        def initialize(uri)
+          @uri = URI.parse(uri)
+        end
+
+        def protocol
+          @uri.scheme
+        end
+
+        def to_s
+          @uri.to_s
+        end
+        
+      end
+      
+      def location
+        if self.url
+          Location.new(self.url)
+        end
+      end
+
+      def [](name)
+        #lambda do |*args|
+          send(:method_missing, name, nil)
+        #end
+      end
+      
+      def method_missing(meth, *args, &block)
+        if f = _forms[meth.to_s] 
+          f
+        else
+          super 
+        end
+      end
+
+      def _forms
+        @_forms ||= begin
+          frms = {}
+          getElementsByTagName('form').each do |f|
+            frms[f.attributes['name'].value] = f if f.attributes['name']
+          end
+          frms
+        end
+      end
+
+      # END of BJG Added
+      
       def getElementsByTagName name
         DOM::NodeList.new do
           css(name)

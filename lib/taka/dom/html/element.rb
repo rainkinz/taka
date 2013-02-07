@@ -22,6 +22,7 @@ module Taka
           super unless key?(attribute)
           self[attribute]
         end
+        
       end
     end
   end
