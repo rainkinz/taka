@@ -11,6 +11,8 @@ module Taka
           @uri = URI.parse(uri)
         elsif uri.is_a?(URI)
           @uri = uri
+        else
+          raise ArgumentError, "uri: #{uri} must be a URI or a String not #{uri.class}"
         end
       end
 

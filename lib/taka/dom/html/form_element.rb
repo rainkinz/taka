@@ -83,12 +83,18 @@ module Taka
           # end
         end
 
+        # TODO: REALLY NEED TO TEST THIS
         def form_fields
-          if self.children
-            h = self.children.inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h } 
-          else
-            {} 
-          end
+          
+          self.xpath(".//input").inject({}) {|h,v| h[v['name']] = v; h }
+
+#           if self.children
+#             # h = self.children.inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h } 
+#             h = self.xpath(".//input").inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h }
+# #            binding.pry
+#           else
+#             {} 
+#           end
         end
 
         def form_field?(type)

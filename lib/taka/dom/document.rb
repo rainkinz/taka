@@ -14,7 +14,7 @@ module Taka
       end
 
       def location=(l)
-        @location = Taka::BOM::Location.new(l)
+        @location = l
       end
 
 

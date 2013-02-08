@@ -12,6 +12,8 @@ module Taka
         @location = Taka::BOM::Location.new(url)
         # @document = Taka::DOM::HTML(content, :location => @location)
         @document = Taka::DOM::HTML(content, url)
+        @document.location = @location
+        
         @ctx = V8::Context.new(:with => self)
         
         document.getElementsByTagName('script').each do |script|
@@ -41,6 +43,10 @@ module Taka
         puts "[CONFIRM] - #{message}"
       end
 
+      def navigator
+        @navigator ||= Navigator.new
+      end
+      
       def window; self; end
     end
   end
