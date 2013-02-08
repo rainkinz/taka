@@ -26,6 +26,11 @@ module Taka
         
       end
 
+      def open(url = nil, name = nil, specs = nil, replace = nil)
+        puts "Open called with arguments url: #{url}, name: #{name}, specs: #{specs}, replace: #{replace}"
+        Browser.push(url: url, name: name, specs: specs, replace: replace)
+      end
+
       def location=(l)
       end
 

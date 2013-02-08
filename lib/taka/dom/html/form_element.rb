@@ -43,7 +43,7 @@ module Taka
           # Does nothing for now
           # refer to https://github.com/cowboyd/therubyracer/wiki/Accessing-Ruby-Objects-From-JavaScript
           proc do 
-            puts "Submit pressed: #{self['method']}: #{self['action']} #{form_params}"
+            # puts "Submit pressed: #{self['method']}: #{self['action']} #{form_params}"
             Taka::BOM::Browser.push({ :method => self['method'], :action => self['action'], :params => form_params })
           end
         end
