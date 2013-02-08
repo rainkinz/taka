@@ -1,3 +1,5 @@
+require 'v8'
+
 module Taka
   module BOM
 
