@@ -57,7 +57,7 @@ module Taka
         # into this object
         def method_missing(meth, *args, &block)
           puts "METHOD MISSING CALLED"
-          if a = self[meth]
+          if a = self[meth.to_s]
             a
           else
             super 
@@ -85,9 +85,13 @@ module Taka
 
         # TODO: REALLY NEED TO TEST THIS
         def form_fields
-          
-          self.xpath(".//input").inject({}) {|h,v| h[v['name']] = v; h }
 
+          # TODO: Add others as needed
+          inputs = self.xpath(".//input").inject({}) {|h,v| h[v['name']] = v; h }
+          selects = self.xpath(".//select").inject({}) {|h,v| h[v['name']] = v; h }
+
+          inputs.merge(selects)
+          
 #           if self.children
 #             # h = self.children.inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h } 
 #             h = self.xpath(".//input").inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h }

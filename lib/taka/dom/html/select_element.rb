@@ -21,7 +21,10 @@ module Taka
           options.each_with_index do |option, i|
             return i if option.selected
           end
-          -1
+          
+          # TODO: BJG Should this return -1 or 0?
+          # -1
+          0
         end
 
         def value
