@@ -5,20 +5,18 @@ module Taka
 
     class Window
 
-      attr_reader :document, :location, :ctx
+      attr_reader :document, :location
     
-      def initialize(url, content)
-
+      def open(url, content = nil)
+        #(url, content)
         @location = Taka::BOM::Location.new(url)
         # @document = Taka::DOM::HTML(content, :location => @location)
         @document = Taka::DOM::HTML(content, url)
         @document.location = @location
-        
-        @ctx = V8::Context.new(:with => self)
-        
+
         document.getElementsByTagName('script').each do |script|
           begin
-            @ctx.eval(script.textContent)
+            ctx.eval(script.textContent)
           rescue V8::JSError => js_e
             puts "JSError: #{js_e.message} evaluating:\n #{script}"
           end
@@ -26,19 +24,23 @@ module Taka
         
       end
 
-      def open(url = nil, name = nil, specs = nil, replace = nil)
-        puts "Open called with arguments url: #{url}, name: #{name}, specs: #{specs}, replace: #{replace}"
-        Browser.push(url: url, name: name, specs: specs, replace: replace)
+
+      def ctx
+        @ctx ||= V8::Context.new(:with => self)
       end
+
+      # def open(url = nil, name = nil, specs = nil, replace = nil)
+      #   puts "Open called with arguments url: #{url}, name: #{name}, specs: #{specs}, replace: #{replace}"
+      #   Browser.push(url: url, name: name, specs: specs, replace: replace)
+      # end
 
       def location=(l)
       end
 
       def eval(str)
-        @ctx.eval(str)
+        ctx.eval(str)
       end
       alias :javascript :eval
-      
     
       def alert(message)
         puts "[ALERT] - #{message}"
@@ -53,6 +55,11 @@ module Taka
       end
       
       def window; self; end
+
+      def close
+        @ctx.dispose() if @ctx
+      end
+      
     end
   end
 end

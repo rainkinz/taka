@@ -11,6 +11,13 @@ module Taka
       def self.ops
         @ops ||= []
       end
+
+      # TODO: This will change
+      def open(url, content = nil)
+        window = Window.new
+        window.open(url, content)
+        window
+      end
       
     end
   
