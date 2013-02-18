@@ -15,7 +15,7 @@ module Taka
       # TODO: This will change
       def open(url, content = nil)
         window = Window.new
-        window.open(url, content)
+        window.goto(url, content)
         window
       end
       

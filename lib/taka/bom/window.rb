@@ -7,7 +7,13 @@ module Taka
 
       attr_reader :document, :location
     
-      def open(url, content = nil)
+      # BOM_METHOD
+      def open(url = nil, name = nil, specs = nil, replace = nil)
+        puts "Open called with arguments url: #{url}, name: #{name}, specs: #{specs}, replace: #{replace}"
+        Browser.push(url: url, name: name, specs: specs, replace: replace)
+      end
+      
+      def goto(url, content = nil)
         #(url, content)
         @location = Taka::BOM::Location.new(url)
         # @document = Taka::DOM::HTML(content, :location => @location)
@@ -28,11 +34,6 @@ module Taka
       def ctx
         @ctx ||= V8::Context.new(:with => self)
       end
-
-      # def open(url = nil, name = nil, specs = nil, replace = nil)
-      #   puts "Open called with arguments url: #{url}, name: #{name}, specs: #{specs}, replace: #{replace}"
-      #   Browser.push(url: url, name: name, specs: specs, replace: replace)
-      # end
 
       def location=(l)
       end
