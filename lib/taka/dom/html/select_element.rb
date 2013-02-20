@@ -17,6 +17,18 @@ module Taka
           self['type']
         end
 
+
+        # BOM
+        def selectedIndex=(si)
+          options.each_with_index do |option, i|
+            if si == i
+              option['selected'] = nil
+            else
+              option.remove_attribute('selected')
+            end
+          end
+        end
+        
         def selectedIndex
           options.each_with_index do |option, i|
             return i if option.selected

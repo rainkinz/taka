@@ -16,6 +16,13 @@ module Taka
           !!self['selected']
         end
 
+        # BOM
+        def selected=(s)
+          puts "Setting selected = #{s}"
+          self['selected'] = s
+          # TODO events
+        end
+
         def index
           select = parent
           while select.node_name != 'select'

@@ -11,12 +11,12 @@ $LOAD_PATH << ENV['JOHNSON_DEV'] if ENV['JOHNSON_DEV']
 require 'rubygems'
 require 'nokogiri'
 require 'taka'
-require 'johnson'
+# require 'johnson'
 
 module DOM
   class TestCase < Test::Unit::TestCase
     BASE = File.expand_path(File.dirname(__FILE__))
-    undef :default_test
+    # undef :default_test
 
     # Default this to text/xml for now....
     def content_type
@@ -108,7 +108,7 @@ module JQuery
   end
 
   class TestCase < Test::Unit::TestCase
-    undef :default_test
+    # undef :default_test
   end  
 
   class PoorMansFirebug
