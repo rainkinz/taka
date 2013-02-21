@@ -40,10 +40,16 @@ module Taka
         # TODO: Allow user to somehow subscribe to these events. In fact change
         # this to an evented model! 
         def submit
+
+          # Ideally we'd do something like this which would bubble the event 
+          # up until it's captured by an element with a listener for the event
+          # dispatch_event({ :method => self['method'], :action => self['action'], :params => form_params })
+          
           # Does nothing for now
           # refer to https://github.com/cowboyd/therubyracer/wiki/Accessing-Ruby-Objects-From-JavaScript
           proc do 
             # puts "Submit pressed: #{self['method']}: #{self['action']} #{form_params}"
+            # TODO: Replace with Events
             Taka::BOM::Browser.push({ :method => self['method'], :action => self['action'], :params => form_params })
           end
         end
