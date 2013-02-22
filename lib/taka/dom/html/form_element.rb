@@ -28,19 +28,30 @@ module Taka
           end
         end
 
-        # def submit
-        #   # Does nothing for now
-        #   # refer to https://github.com/cowboyd/therubyracer/wiki/Accessing-Ruby-Objects-From-JavaScript
-        #   proc do 
-        #     puts "Submit pressed: #{self['method']}: #{self['action']} #{form_params}"
-        #     #{ :method => self['method'], :aciton => self['action'], :params => form_fields }
-        #   end
-        # end
+        def event_handlers
+          @event_handlers ||= {}
+        end
+
+        def event_handler_for(event_name)
+          event_handlers[event_name] || []
+        end
+        
+        def addEventListener(event_name, handler, capture = false)
+          event_handlers[event_name] ||= [] # todo check event names
+          event_handlers[event_name] << handler
+        end
+
 
         # TODO: Allow user to somehow subscribe to these events. In fact change
         # this to an evented model! 
         def submit
 
+          event = Taka::BOM::Event.new(
+            :type => 'submit',
+            :target => self
+          )
+          Taka::BOM::Events.dispatch_event(event)
+                    
           # Ideally we'd do something like this which would bubble the event 
           # up until it's captured by an element with a listener for the event
           # dispatch_event({ :method => self['method'], :action => self['action'], :params => form_params })
@@ -93,18 +104,22 @@ module Taka
         def form_fields
 
           # TODO: Add others as needed
-          inputs = self.xpath(".//input").inject({}) {|h,v| h[v['name']] = v; h }
+          inputs = {}
+          self.xpath(".//input").each do |input|
+            # {|h,v| h[v['name']] = v; h }
+            # puts "name: #{input['name']}, type: #{input.type}"
+            if input.type == 'radio'
+              inputs[input['name']] ||= Taka::BOM::Radios.new
+              inputs[input['name']].add(input)
+            else
+              inputs[input['name']] = input
+            end
+          end
           selects = self.xpath(".//select").inject({}) {|h,v| h[v['name']] = v; h }
 
           inputs.merge(selects)
           
-#           if self.children
-#             # h = self.children.inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h } 
-#             h = self.xpath(".//input").inject({}) {|h,v| h[v['name']] = v if form_field?(v['type']); h }
-# #            binding.pry
-#           else
-#             {} 
-#           end
+
         end
 
         def form_field?(type)

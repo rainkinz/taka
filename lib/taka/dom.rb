@@ -82,6 +82,7 @@ module Taka
               'colgroup'  => [DOM::HTML::ColElement],
               'textarea'  => [DOM::HTML::TextAreaElement],
               'ul'        => [DOM::HTML::UListElement],
+# TODO: How to make radio              'radio'     => [DOM::HTML::RadioElement]
             }[node.node_name] || []).each do |klass|
               node.extend(klass)
             end

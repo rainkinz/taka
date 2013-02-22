@@ -5,20 +5,27 @@ module Taka
 
     class Window
 
-      attr_reader :document, :location
+      attr_reader :document, :location, :opening
     
       # BOM_METHOD
       def open(url = nil, name = nil, specs = nil, replace = nil)
         puts "Open called with arguments url: #{url}, name: #{name}, specs: #{specs}, replace: #{replace}"
+      
+        @opening = {url: url, name: name, specs: specs, replace: replace}
         Browser.push(url: url, name: name, specs: specs, replace: replace)
       end
+
+      
       
       def goto(url, content = nil)
         #(url, content)
         @location = Taka::BOM::Location.new(url)
         # @document = Taka::DOM::HTML(content, :location => @location)
+
+        # FIXME FIXME
         @document = Taka::DOM::HTML(content, url)
         @document.location = @location
+        @document.window = self
 
         document.getElementsByTagName('script').each do |script|
           begin

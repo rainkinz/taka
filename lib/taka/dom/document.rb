@@ -17,6 +17,14 @@ module Taka
         @location = l
       end
 
+      def window
+        @window
+      end
+
+      def window=(w)
+        @window = w
+      end
+
 
       # https://groups.google.com/forum/?fromgroups=#!topic/therubyracer/xgq_Uy1LcOc
       def [](name)
