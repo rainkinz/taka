@@ -67,7 +67,12 @@ module Taka
 
         
         def form_params
-          Hash[form_fields.map {|k,n| [k, n.value] }]
+          # Hash[form_fields.map {|k,n| [k, n.value] }]
+          vals = form_fields.map do |field_name, field|
+            puts "Getting value of #{field_name}"
+            [field_name, field.value]
+          end
+          Hash[vals]
         end
 
         # TODO: Do I want to keep this? Purely for ruby side calls
@@ -106,24 +111,24 @@ module Taka
           # TODO: Add others as needed
           inputs = {}
           self.xpath(".//input").each do |input|
-            # {|h,v| h[v['name']] = v; h }
-            # puts "name: #{input['name']}, type: #{input.type}"
-            if input.type == 'radio'
-              inputs[input['name']] ||= Taka::BOM::Radios.new
-              inputs[input['name']].add(input)
+            if form_field?(input.type)
+              if input.type == 'radio'
+                inputs[input['name']] ||= Taka::BOM::Radios.new
+                inputs[input['name']].add(input)
+              else
+                inputs[input['name']] = input
+              end
             else
-              inputs[input['name']] = input
+              puts "#{input.name}: #{input.type} is not a form field. Ignoring"
             end
           end
           selects = self.xpath(".//select").inject({}) {|h,v| h[v['name']] = v; h }
 
           inputs.merge(selects)
-          
-
         end
 
         def form_field?(type)
-          ['hidden', 'input', 'textarea','select'].include?(type)
+          ['hidden', 'input', 'radio', 'select', 'text', 'textarea'].include?(type.downcase)
         end
         
         # # def [](name)
