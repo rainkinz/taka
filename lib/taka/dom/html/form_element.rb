@@ -69,7 +69,7 @@ module Taka
         def form_params
           # Hash[form_fields.map {|k,n| [k, n.value] }]
           vals = form_fields.map do |field_name, field|
-            puts "Getting value of #{field_name}"
+            # puts "Getting value of #{field_name}"
             [field_name, field.value]
           end
           Hash[vals]
@@ -119,7 +119,7 @@ module Taka
                 inputs[input['name']] = input
               end
             else
-              puts "#{input.name}: #{input.type} is not a form field. Ignoring"
+              # puts "#{input.name}: #{input.type} is not a form field. Ignoring"
             end
           end
           selects = self.xpath(".//select").inject({}) {|h,v| h[v['name']] = v; h }
